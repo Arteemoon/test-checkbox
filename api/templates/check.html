@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чек ФОП Джонсонюк Борис</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin-top: 0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td,
+        th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            text-align: left;
+        }
+
+        .total {
+            font-weight: bold;
+        }
+
+        .check-time,
+        {
+        text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>{{ check_data['created_by']['name'] }}</h1>
+    <h2>Чек</h2>
+    <hr>
+    <table>
+        <tr>
+            <th>Назва</th>
+            <th>Кількість</th>
+            <th>Ціна</th>
+            <th>Сума</th>
+        </tr>
+        {% for product in check_data['products'] %}
+        <tr>
+            <td>{{ product['name'] }}</td>
+            <td>{{ product['quantity'] }}</td>
+            <td>{{ product['price'] }}</td>
+            <td>{{ product['total'] }}</td>
+        </tr>
+        {% endfor %}
+        <tr class="total">
+            <td colspan="3">Всього</td>
+            <td>{{ check_data['total'] }}</td>
+        </tr>
+    </table>
+    <br>
+    <p>Спосіб оплати: {% if check_data['payment_type'] == 'cash' %} Готівка {% else %} Картка {% endif %}</p>
+    <p>Решта: {{ check_data['rest'] or '0.00' }}</p>
+    <hr>
+    <p style="text-align: center;">Дата: {{check_data['created_at'].strftime('%Y.%m.%d %H:%M')}} 14.08.2023 14:42</p>
+    <h3 style="text-align: center;">Дякуємо за покупку!</h3>
+</body>
+
+</html>

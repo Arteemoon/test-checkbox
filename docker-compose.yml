@@ -1,0 +1,28 @@
+version: "3.1"
+
+services:
+  checkbox_db:
+    container_name: checkbox_db
+    build: ./database
+    env_file:
+      - ./.env
+    volumes:
+      - checkbox-data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: ./api
+    container_name: api
+    command: /run_app.sh
+    ports:
+      - '8000:8000'
+      - '7000:7000'
+    env_file:
+      - ./.env
+    volumes:
+      - ./api/:/app/
+    depends_on:
+      - checkbox_db
+
+volumes:
+  checkbox-data:
